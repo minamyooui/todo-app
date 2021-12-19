@@ -1,0 +1,16 @@
+todo factory(index) :
+  title, notes, date, priority, complete?
+
+  setters and getters for each
+
+  const index
+
+main:
+  object that holds projects
+    projects are arrays that hold to-dos
+  function to add new todos
+  function to delete todos
+  function to mark complete todos
+
+dom:
+
