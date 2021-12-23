@@ -108,3 +108,12 @@ button {
      between the labels and their text fields */
   margin-left: .5em;
 }
+
+.todobox {
+  display: flex;
+}
+
+.todobox div {
+  border: black 2px solid;
+}
+
