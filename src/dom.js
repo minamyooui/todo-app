@@ -57,6 +57,16 @@ function render(currentProject) {
   });
 }
 
+function displayProjects(obj) {
+  const projects = document.querySelector('.projects');
+  for (const key in obj) {
+    const p = document.createElement('p');
+    p.textContent = key;
+    p.id = key;
+    projects.appendChild(p);
+  }
+}
+
 function clearToDo() {
   const box = document.querySelector('.todobox');
   while (box.firstChild) {
@@ -64,4 +74,7 @@ function clearToDo() {
   }
 }
 
-export default render;
+export {
+  render,
+  displayProjects
+};
