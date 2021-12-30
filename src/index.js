@@ -1,13 +1,14 @@
 import ToDo from "./todo"
 import './style.css';
 import './dom.js';
-import {render, displayProjects} from "./dom.js";
+import {render, displayProjects, highlightCurrent} from "./dom.js";
 
 const toDoArr = [];
 const projects = {};
 projects['main'] = Project();
 displayProjects(projects);
 let currentProject = projects['main'];
+highlightCurrent('main');
 const submit = document.querySelector('#submit');
 submit.addEventListener('click', addToDo);
 const newProjectButton = document.querySelector('#newP');
@@ -42,11 +43,13 @@ function newProject() {
   currentProject = projects[name];
   render(currentProject);
   displayProjects(projects);
+  highlightCurrent(name);
 }
 
 function switchProject() {
   currentProject = projects[this.id];
   render(currentProject);
+  highlightCurrent(this.id);
 }
 
 export {switchProject};

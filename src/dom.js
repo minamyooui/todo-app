@@ -76,6 +76,7 @@ function displayProjects(obj) {
   for (const key in obj) {
     const p = document.createElement('p');
     p.textContent = key;
+    p.classList = 'project';
     p.id = key;
     p.addEventListener('click', switchProject)
     projects.appendChild(p);
@@ -89,6 +90,12 @@ function clearProjects() {
   }
 }
 
+function highlightCurrent(name) {
+  const project = document.getElementById(name);
+  const projects = document.querySelectorAll('.project');
+  projects.forEach(e => e.classList.remove('active'));
+  project.classList.toggle('active');
+}
 function clearToDo() {
   const box = document.querySelector('.todobox');
   while (box.firstChild) {
@@ -100,5 +107,6 @@ function clearToDo() {
 
 export {
   render,
-  displayProjects
+  displayProjects,
+  highlightCurrent
 };
