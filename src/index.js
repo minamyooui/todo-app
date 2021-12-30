@@ -36,10 +36,13 @@ function newProject() {
   const name = prompt('Enter project name:', 'unnamed');
   projects[name] = Project();
   currentProject = projects[name];
+  render(currentProject);
   displayProjects(projects);
 }
 
 function switchProject() {
-
+  currentProject = projects[this.id];
+  render(currentProject);
 }
 
+export {switchProject};

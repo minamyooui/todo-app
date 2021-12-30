@@ -1,4 +1,4 @@
-
+import { switchProject } from ".";
 
 const collapsible = (() => {
   const collapse = document.querySelectorAll('.collapsible');
@@ -58,12 +58,21 @@ function render(currentProject) {
 }
 
 function displayProjects(obj) {
+  clearProjects();
   const projects = document.querySelector('.projects');
   for (const key in obj) {
     const p = document.createElement('p');
     p.textContent = key;
     p.id = key;
+    p.addEventListener('click', switchProject)
     projects.appendChild(p);
+  }
+}
+
+function clearProjects() {
+  const box = document.querySelector('.projects');
+  while (box.childNodes[2]) {
+    box.removeChild(box.childNodes[2]);
   }
 }
 
@@ -73,6 +82,8 @@ function clearToDo() {
     box.removeChild(box.firstChild);
   }
 }
+
+
 
 export {
   render,
