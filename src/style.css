@@ -111,9 +111,10 @@ button {
 
 .todobox {
   display: flex;
+  flex-direction: column;
 }
 
-.todobox div {
+.todobox>div {
   border: black 2px solid;
 }
 

@@ -13,6 +13,10 @@ submit.addEventListener('click', addToDo);
 const newProjectButton = document.querySelector('#newP');
 newProjectButton.addEventListener('click', newProject)
 
+for (let i = 0; i < 3; i++) {
+  currentProject.addToDo('test', 'test', '1/1/2022', 1);
+}
+
 function addToDo() {
   const title = document.querySelector('#title').value;
   const notes = document.querySelector('#notes').value;
