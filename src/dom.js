@@ -1,4 +1,5 @@
 import { switchProject } from ".";
+import format from "date-fns/format";
 
 const collapsible = (() => {
   const collapse = document.querySelectorAll('.collapsible');
@@ -30,6 +31,7 @@ function closeForm() {
   const form = document.querySelector('.form');
   form.classList.toggle('hideform');
 }
+
 function controlCollapse() {
   const content = this.firstChild.nextElementSibling;
     if (content.style.display === 'block') {
@@ -38,6 +40,7 @@ function controlCollapse() {
       content.style.display = 'block';
     }
 }
+
 function render(currentProject) {
   let arr = currentProject.getToDoArr();
   const box = document.querySelector('.todobox');
@@ -45,10 +48,19 @@ function render(currentProject) {
   arr.forEach(e => {
     const div = document.createElement('div');
     const div2 = document.createElement('div');
+    const buttons = document.createElement('div');
+    const mark = document.createElement('button');
+    mark.textContent = 'Mark Done';
+    mark.onclick = markDone;
+    const del = document.createElement('button');
+    del.onclick = deleteToDo;
+    del.textContent = 'Delete';
+    buttons.appendChild(mark);
+    buttons.appendChild(del);
     div.addEventListener('click', controlCollapse)
     const title = e.getTitle();
     const notes = e.getNotes();
-    const date = e.getDate();
+    const date = format(e.getDate(), 'MM/dd/yyyy');
     const priority = e.getPriority();
     const p1 = document.createElement('p');
     const p2 = document.createElement('p');
@@ -66,8 +78,18 @@ function render(currentProject) {
     collapse.appendChild(p4);
     div.appendChild(div2);
     div.appendChild(collapse);
+    div.appendChild(buttons);
     box.appendChild(div);
   });
+}
+
+function markDone(e) {
+  this.parentElement.parentElement.classList.toggle('done');
+  e.stopPropagation();
+}
+
+function deleteToDo() {
+  this.parentElement.parentElement.remove();
 }
 
 function displayProjects(obj) {
@@ -96,14 +118,13 @@ function highlightCurrent(name) {
   projects.forEach(e => e.classList.remove('active'));
   project.classList.toggle('active');
 }
+
 function clearToDo() {
   const box = document.querySelector('.todobox');
   while (box.firstChild) {
     box.removeChild(box.firstChild);
   }
 }
-
-
 
 export {
   render,

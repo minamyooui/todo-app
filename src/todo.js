@@ -1,4 +1,7 @@
+import parse from "date-fns/parse";
+
 const ToDo = (title, notes, date, priority) => {
+  date = parse(date, 'yyyy-MM-dd', new Date());
   const getTitle = () => title;
   const updateTitle = (newTitle) => {
     title = newTitle;

@@ -2,8 +2,8 @@ import ToDo from "./todo"
 import './style.css';
 import './dom.js';
 import {render, displayProjects, highlightCurrent} from "./dom.js";
+import { compareAsc } from "date-fns";
 
-const toDoArr = [];
 const projects = {};
 projects['main'] = Project();
 displayProjects(projects);
@@ -15,7 +15,7 @@ const newProjectButton = document.querySelector('#newP');
 newProjectButton.addEventListener('click', newProject)
 
 for (let i = 0; i < 3; i++) {
-  currentProject.addToDo('test', 'test', '1/1/2022', 1);
+  currentProject.addToDo('test', 'test', '2022-01-01', 1);
 }
 
 function addToDo() {
@@ -31,6 +31,7 @@ function Project() {
   const addToDo = (title, notes, date, priority) => {
     toDoArr.push(ToDo(title, notes, date, priority));
     console.log(toDoArr);
+    toDoArr.sort((a, b) => compareAsc(a.getDate(), b.getDate()));
     render(currentProject);
   }
   const getToDoArr = () => toDoArr;
