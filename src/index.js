@@ -4,7 +4,7 @@ import './dom.js';
 import {render, displayProjects, highlightCurrent} from "./dom.js";
 import { compareAsc } from "date-fns";
 
-const projects = {};
+let projects = {};
 projects['main'] = Project();
 displayProjects(projects);
 let currentProject = projects['main'];
@@ -30,12 +30,11 @@ function Project() {
   const toDoArr = [];
   const addToDo = (title, notes, date, priority) => {
     toDoArr.push(ToDo(title, notes, date, priority));
-    console.log(toDoArr);
     toDoArr.sort((a, b) => compareAsc(a.getDate(), b.getDate()));
     render(currentProject);
   }
   const getToDoArr = () => toDoArr;
-  return {addToDo, getToDoArr}
+  return {addToDo, getToDoArr, toDoArr}
 }
 
 function newProject() {
@@ -53,4 +52,29 @@ function switchProject() {
   highlightCurrent(this.id);
 }
 
+function testStorage() {
+  localStorage.setItem('projects', JSON.stringify(projects));
+  const retrieved = JSON.parse(localStorage.getItem('projects'));
+  console.log('projects: ', projects);
+  console.log('retrieved: ', retrieved);
+  console.log('newProjects: ', recreateObjects(retrieved));
+}
+
+function recreateObjects(retrieved) {
+  const newProjects = {};
+  for (const key in retrieved) {
+    const toDoArr = [];
+    retrieved[key].toDoArr.forEach(e => {
+      toDoArr.push(Object.assign(ToDo(), e));
+    });
+    newProjects[key] = Object.assign(Project(), { toDoArr });
+  }
+  return newProjects;
+}
+
+testStorage();
+// changed object returns for project and todo in order to test localStorage
+// work on creating a factory for reconstructing retrieved objects with methods
+// Object.assign can create new object with methods
+//everything works, now to implement and test
 export {switchProject};
