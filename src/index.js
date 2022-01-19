@@ -4,10 +4,12 @@ import './dom.js';
 import {render, displayProjects, highlightCurrent} from "./dom.js";
 import { compareAsc } from "date-fns";
 
+
 let projects = {};
 projects['main'] = Project();
-displayProjects(projects);
 let currentProject = projects['main'];
+loadState();
+displayProjects(projects);
 highlightCurrent('main');
 const submit = document.querySelector('#submit');
 submit.addEventListener('click', addToDo);
@@ -24,10 +26,10 @@ function addToDo() {
   const date = document.querySelector('#date').value;
   const priority = document.querySelector('#priority').value;
   currentProject.addToDo(title, notes, date, priority);
+  saveState();
 }
 
-function Project() {
-  const toDoArr = [];
+function Project(toDoArr = []) {
   const addToDo = (title, notes, date, priority) => {
     toDoArr.push(ToDo(title, notes, date, priority));
     toDoArr.sort((a, b) => compareAsc(a.getDate(), b.getDate()));
@@ -44,6 +46,7 @@ function newProject() {
   render(currentProject);
   displayProjects(projects);
   highlightCurrent(name);
+  saveState();
 }
 
 function switchProject() {
@@ -51,6 +54,19 @@ function switchProject() {
   render(currentProject);
   highlightCurrent(this.id);
 }
+
+function loadState() {
+  const retrieved = localStorage.getItem('projects');
+  if (retrieved) {
+    recreateObjects(JSON.parse(retrieved));
+  }
+}
+
+function saveState() {
+  localStorage.setItem('projects', JSON.stringify(projects));
+}
+
+
 
 function testStorage() {
   localStorage.setItem('projects', JSON.stringify(projects));
@@ -61,15 +77,13 @@ function testStorage() {
 }
 
 function recreateObjects(retrieved) {
-  const newProjects = {};
   for (const key in retrieved) {
     const toDoArr = [];
     retrieved[key].toDoArr.forEach(e => {
-      toDoArr.push(Object.assign(ToDo(), e));
+      toDoArr.push(ToDo(e.title, e.notes, e.date, e.priority));
     });
-    newProjects[key] = Object.assign(Project(), { toDoArr });
+    projects[key] = Project(toDoArr);
   }
-  return newProjects;
 }
 
 testStorage();

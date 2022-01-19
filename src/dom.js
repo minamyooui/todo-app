@@ -42,7 +42,9 @@ function controlCollapse() {
 }
 
 function render(currentProject) {
+  console.log('cp: ', currentProject);
   let arr = currentProject.getToDoArr();
+  console.log('todoarr: ', arr);
   const box = document.querySelector('.todobox');
   clearToDo();
   arr.forEach(e => {
@@ -60,7 +62,7 @@ function render(currentProject) {
     div.addEventListener('click', controlCollapse)
     const title = e.getTitle();
     const notes = e.getNotes();
-    const date = format(e.getDate(), 'MM/dd/yyyy');
+    const date = e.getDate() == 'Invalid Date' ? '' : format(e.getDate(), 'MM/dd/yyyy');
     const priority = e.getPriority();
     const p1 = document.createElement('p');
     const p2 = document.createElement('p');
