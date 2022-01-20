@@ -1,4 +1,4 @@
-import { switchProject, deleteProject } from ".";
+import { switchProject, deleteProject, markDone, deleteToDo } from ".";
 import format from "date-fns/format";
 
 const collapsible = (() => {
@@ -47,16 +47,18 @@ function render(currentProject) {
   console.log('todoarr: ', arr);
   const box = document.querySelector('.todobox');
   clearToDo();
-  arr.forEach(e => {
+  arr.forEach((e, i) => {
     const div = document.createElement('div');
     const div2 = document.createElement('div');
     const buttons = document.createElement('div');
     const mark = document.createElement('button');
     mark.textContent = 'Mark Done';
     mark.onclick = markDone;
+    mark.dataset.i = i;
     const del = document.createElement('button');
     del.onclick = deleteToDo;
     del.textContent = 'Delete';
+    del.dataset.i = i;
     buttons.appendChild(mark);
     buttons.appendChild(del);
     div.addEventListener('click', controlCollapse)
@@ -83,15 +85,6 @@ function render(currentProject) {
     div.appendChild(buttons);
     box.appendChild(div);
   });
-}
-
-function markDone(e) {
-  this.parentElement.parentElement.classList.toggle('done');
-  e.stopPropagation();
-}
-
-function deleteToDo() {
-  this.parentElement.parentElement.remove();
 }
 
 function displayProjects(obj) {

@@ -35,8 +35,19 @@ function Project(toDoArr = []) {
     toDoArr.sort((a, b) => compareAsc(a.getDate(), b.getDate()));
     render(currentProject);
   }
+  const delToDo = (i) => {
+    if (i > -1) {
+      toDoArr.splice(i, 1);
+    }
+    render(currentProject);
+  }
+  const markDone = (i) => {
+    if (i > -1) {
+      toDoArr[i].markDone();
+    }
+  }
   const getToDoArr = () => toDoArr;
-  return {addToDo, getToDoArr, toDoArr}
+  return {addToDo, getToDoArr, delToDo, toDoArr, markDone}
 }
 
 function newProject() {
@@ -62,6 +73,21 @@ function deleteProject() {
   console.log(projects);
   saveState();
   
+}
+
+function deleteToDo(e) {
+  const i = this.dataset.i;
+  currentProject.delToDo(i);
+  e.stopPropagation();
+  saveState();
+}
+
+function markDone(e) {
+  this.parentElement.parentElement.classList.toggle('done');
+  const i = this.dataset.i;
+  currentProject.markDone(i);
+  e.stopPropagation();
+  saveState();
 }
 
 function loadState() {
@@ -103,4 +129,5 @@ testStorage();
 // restoring state from local storage now works
 //functionality to add: working mark done on todos, abilty to delete projects
 // delete projects works, doesnt save
-export {switchProject, deleteProject};
+//working on markdone
+export {switchProject, deleteProject, deleteToDo, markDone };

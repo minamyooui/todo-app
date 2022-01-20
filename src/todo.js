@@ -1,6 +1,7 @@
 import parse from "date-fns/parse";
 
 const ToDo = (title, notes, date, priority) => {
+  let done = false;
   const getTitle = () => title;
   const updateTitle = (newTitle) => {
     title = newTitle;
@@ -17,8 +18,16 @@ const ToDo = (title, notes, date, priority) => {
   const updatePriority = (newPriority) => {
     priority = newPriority;
   }
+  const markDone = () => {
+    if (done) {
+      done = false;
+    } else {
+      done = true;
+    }
+    console.log(done);
+  }
   return {getTitle, updateTitle, getNotes, updateNotes, 
-    getDate, updateDate, getPriority, updatePriority, title, notes, date, priority };
+    getDate, updateDate, getPriority, updatePriority, markDone, title, notes, date, priority };
 }
 
 export default ToDo;
