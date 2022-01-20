@@ -1,4 +1,4 @@
-import { switchProject } from ".";
+import { switchProject, deleteProject } from ".";
 import format from "date-fns/format";
 
 const collapsible = (() => {
@@ -96,21 +96,33 @@ function deleteToDo() {
 
 function displayProjects(obj) {
   clearProjects();
-  const projects = document.querySelector('.projects');
+  const projects = document.querySelector('.pContainer');
   for (const key in obj) {
+    const div = document.createElement('div');
+    div.classList = 'pBox';
+    div.style.display = 'flex';
+    div.style.justifyContent = 'space-between';
+    div.style.alignItems = 'center';
     const p = document.createElement('p');
+    p.style.margin = '.5em 0px';
     p.textContent = key;
     p.classList = 'project';
     p.id = key;
-    p.addEventListener('click', switchProject)
-    projects.appendChild(p);
+    p.addEventListener('click', switchProject);
+    const del = document.createElement('button');
+    del.textContent = 'del';
+    del.classList = 'pDel';
+    del.addEventListener('click', deleteProject);
+    div.appendChild(p);
+    div.appendChild(del);
+    projects.appendChild(div);
   }
 }
 
 function clearProjects() {
-  const box = document.querySelector('.projects');
-  while (box.childNodes[2]) {
-    box.removeChild(box.childNodes[2]);
+  const box = document.querySelector('.pContainer');
+  while (box.firstChild) {
+    box.removeChild(box.firstChild);
   }
 }
 

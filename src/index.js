@@ -55,6 +55,15 @@ function switchProject() {
   highlightCurrent(this.id);
 }
 
+function deleteProject() {
+  const key = this.previousElementSibling.id;
+  delete projects[key];
+  displayProjects(projects);
+  console.log(projects);
+  saveState();
+  
+}
+
 function loadState() {
   const retrieved = localStorage.getItem('projects');
   if (retrieved) {
@@ -91,4 +100,7 @@ testStorage();
 // work on creating a factory for reconstructing retrieved objects with methods
 // Object.assign can create new object with methods
 //everything works, now to implement and test
-export {switchProject};
+// restoring state from local storage now works
+//functionality to add: working mark done on todos, abilty to delete projects
+// delete projects works, doesnt save
+export {switchProject, deleteProject};
