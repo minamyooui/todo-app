@@ -7,18 +7,15 @@ import { compareAsc } from "date-fns";
 
 let projects = {};
 projects['main'] = Project();
-let currentProject = projects['main'];
 loadState();
+let currentProject = projects['main'];
 displayProjects(projects);
 highlightCurrent('main');
+render(currentProject);
 const submit = document.querySelector('#submit');
 submit.addEventListener('click', addToDo);
 const newProjectButton = document.querySelector('#newP');
 newProjectButton.addEventListener('click', newProject)
-
-for (let i = 0; i < 3; i++) {
-  currentProject.addToDo('test', 'test', '2022-01-01', 1);
-}
 
 function addToDo() {
   const title = document.querySelector('#title').value;
@@ -43,8 +40,10 @@ function Project(toDoArr = []) {
   }
   const markDone = (i) => {
     if (i > -1) {
-      toDoArr[i].done = true;
-      toDoArr[i].markDone();
+      const toDo = toDoArr[i];
+      toDo.done = true;
+      toDo.markDone();
+      
     }
   }
   const getToDoArr = () => toDoArr;
@@ -124,12 +123,5 @@ function recreateObjects(retrieved) {
 }
 
 testStorage();
-// changed object returns for project and todo in order to test localStorage
-// work on creating a factory for reconstructing retrieved objects with methods
-// Object.assign can create new object with methods
-//everything works, now to implement and test
-// restoring state from local storage now works
-//functionality to add: working mark done on todos, abilty to delete projects
-// delete projects works, doesnt save
-//mark done and render mismatch upon reload
+//add abilty to unmark done
 export {switchProject, deleteProject, deleteToDo, markDone };

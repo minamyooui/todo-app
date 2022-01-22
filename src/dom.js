@@ -85,6 +85,7 @@ function render(currentProject) {
     div.appendChild(collapse);
     div.appendChild(buttons);
     if(e.getDone()) {
+      mark.textContent = 'Unmark';
       donebox.appendChild(div);
     } else {
       box.appendChild(div);
