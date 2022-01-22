@@ -42,9 +42,7 @@ function controlCollapse() {
 }
 
 function render(currentProject) {
-  console.log('cp: ', currentProject);
   const arr = currentProject.getToDoArr();
-  console.log('todoarr: ', arr);
   const box = document.querySelector('.todobox');
   const donebox = document.querySelector('.donebox');
   clearToDo();
@@ -84,7 +82,7 @@ function render(currentProject) {
     div.appendChild(div2);
     div.appendChild(collapse);
     div.appendChild(buttons);
-    if(e.getDone()) {
+    if(e.done) {
       mark.textContent = 'Unmark';
       donebox.appendChild(div);
     } else {

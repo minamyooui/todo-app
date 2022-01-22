@@ -6,8 +6,10 @@ import { compareAsc } from "date-fns";
 
 
 let projects = {};
-projects['main'] = Project();
 loadState();
+if(!projects['main']) {
+  projects['main'] = Project();
+}
 let currentProject = projects['main'];
 displayProjects(projects);
 highlightCurrent('main');
@@ -41,9 +43,11 @@ function Project(toDoArr = []) {
   const markDone = (i) => {
     if (i > -1) {
       const toDo = toDoArr[i];
-      toDo.done = true;
-      toDo.markDone();
-      
+      if (toDo.done) {
+        toDo.done = false;
+      } else {
+        toDo.done = true;
+      }
     }
   }
   const getToDoArr = () => toDoArr;
@@ -81,14 +85,16 @@ function deleteToDo(e) {
   e.stopPropagation();
   saveState();
 }
+// needed to simulate clicking on project to save marked todos
 
 function markDone(e) {
+  const switchBut = document.querySelector('.active');
+  switchBut.click();
   const i = this.dataset.i;
   currentProject.markDone(i);
-  e.stopPropagation();
   render(currentProject);
+  e.stopPropagation();
   saveState();
-  console.log(projects);
 }
 
 function loadState() {
@@ -123,5 +129,4 @@ function recreateObjects(retrieved) {
 }
 
 testStorage();
-//add abilty to unmark done
 export {switchProject, deleteProject, deleteToDo, markDone };
