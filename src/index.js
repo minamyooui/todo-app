@@ -43,6 +43,7 @@ function Project(toDoArr = []) {
   }
   const markDone = (i) => {
     if (i > -1) {
+      toDoArr[i].done = true;
       toDoArr[i].markDone();
     }
   }
@@ -83,11 +84,12 @@ function deleteToDo(e) {
 }
 
 function markDone(e) {
-  this.parentElement.parentElement.classList.toggle('done');
   const i = this.dataset.i;
   currentProject.markDone(i);
   e.stopPropagation();
+  render(currentProject);
   saveState();
+  console.log(projects);
 }
 
 function loadState() {
@@ -115,7 +117,7 @@ function recreateObjects(retrieved) {
   for (const key in retrieved) {
     const toDoArr = [];
     retrieved[key].toDoArr.forEach(e => {
-      toDoArr.push(ToDo(e.title, e.notes, e.date, e.priority));
+      toDoArr.push(ToDo(e.title, e.notes, e.date, e.priority, e.done));
     });
     projects[key] = Project(toDoArr);
   }
@@ -129,5 +131,5 @@ testStorage();
 // restoring state from local storage now works
 //functionality to add: working mark done on todos, abilty to delete projects
 // delete projects works, doesnt save
-//working on markdone
+//mark done and render mismatch upon reload
 export {switchProject, deleteProject, deleteToDo, markDone };

@@ -43,9 +43,10 @@ function controlCollapse() {
 
 function render(currentProject) {
   console.log('cp: ', currentProject);
-  let arr = currentProject.getToDoArr();
+  const arr = currentProject.getToDoArr();
   console.log('todoarr: ', arr);
   const box = document.querySelector('.todobox');
+  const donebox = document.querySelector('.donebox');
   clearToDo();
   arr.forEach((e, i) => {
     const div = document.createElement('div');
@@ -83,7 +84,11 @@ function render(currentProject) {
     div.appendChild(div2);
     div.appendChild(collapse);
     div.appendChild(buttons);
-    box.appendChild(div);
+    if(e.getDone()) {
+      donebox.appendChild(div);
+    } else {
+      box.appendChild(div);
+    }
   });
 }
 
@@ -128,8 +133,12 @@ function highlightCurrent(name) {
 
 function clearToDo() {
   const box = document.querySelector('.todobox');
+  const donebox = document.querySelector('.donebox');
   while (box.firstChild) {
     box.removeChild(box.firstChild);
+  }
+  while (donebox.firstChild) {
+    donebox.removeChild(donebox.firstChild);
   }
 }
 
