@@ -97,9 +97,6 @@ function displayProjects(obj) {
   for (const key in obj) {
     const div = document.createElement('div');
     div.classList = 'pBox';
-    div.style.display = 'flex';
-    div.style.justifyContent = 'space-between';
-    div.style.alignItems = 'center';
     const p = document.createElement('p');
     p.style.margin = '.5em 0px';
     p.textContent = key;

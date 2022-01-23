@@ -108,8 +108,6 @@ function saveState() {
   localStorage.setItem('projects', JSON.stringify(projects));
 }
 
-
-
 function testStorage() {
   localStorage.setItem('projects', JSON.stringify(projects));
   const retrieved = JSON.parse(localStorage.getItem('projects'));
@@ -128,5 +126,4 @@ function recreateObjects(retrieved) {
   }
 }
 
-testStorage();
 export {switchProject, deleteProject, deleteToDo, markDone };
