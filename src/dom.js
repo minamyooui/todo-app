@@ -1,4 +1,4 @@
-import { switchProject, deleteProject, markDone, deleteToDo } from ".";
+import { switchProject, deleteProject, markDone, deleteToDo, editToDo } from ".";
 import format from "date-fns/format";
 
 const collapsible = (() => {
@@ -18,17 +18,19 @@ const collapsible = (() => {
 })();
 
 const button = document.querySelector('#addTodo');
-button.addEventListener('click', openToDoForm);
-const closeButton = document.querySelector('#close');
-closeButton.addEventListener('click', closeForm);
+button.addEventListener('click', () => openToDoForm('#new'));
+const closeNew = document.querySelector('#new #close');
+closeNew.addEventListener('click', () => closeForm('#new'));
+const closeEdit = document.querySelector('#edit #close');
+closeEdit.addEventListener('click', () => closeForm('#edit'));
 
-function openToDoForm() {
-  const form = document.querySelector('.form');
+function openToDoForm(id) {
+  const form = document.querySelector(id);
   form.classList.toggle('hideform');
 }
 
-function closeForm() {
-  const form = document.querySelector('.form');
+function closeForm(id) {
+  const form = document.querySelector(id);
   form.classList.toggle('hideform');
 }
 
@@ -58,8 +60,13 @@ function render(currentProject) {
     del.onclick = deleteToDo;
     del.textContent = 'Delete';
     del.dataset.i = i;
+    const edit = document.createElement('button');
+    edit.onclick = editToDo;
+    edit.textContent = 'Edit';
+    edit.dataset.i = i;
     buttons.appendChild(mark);
     buttons.appendChild(del);
+    buttons.appendChild(edit);
     div.addEventListener('click', controlCollapse)
     const title = e.getTitle();
     const notes = e.getNotes();
@@ -127,6 +134,16 @@ function highlightCurrent(name) {
   project.classList.toggle('active');
 }
 
+function editToDoForm(title, notes, date, priority, i) {
+  const editSubmit = document.querySelector('#edit #submit');
+  editSubmit.dataset.i = i;
+  document.querySelector('#edit #title').value = title;
+  document.querySelector('#edit #notes').value = notes;
+  document.querySelector('#edit #date').value = date;
+  document.querySelector('#edit #priority').value = priority;
+  openToDoForm('#edit');
+}
+
 function clearToDo() {
   const box = document.querySelector('.todobox');
   const donebox = document.querySelector('.donebox');
@@ -141,5 +158,6 @@ function clearToDo() {
 export {
   render,
   displayProjects,
-  highlightCurrent
+  highlightCurrent,
+  editToDoForm
 };

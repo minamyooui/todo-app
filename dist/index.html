@@ -19,9 +19,36 @@
   </div>
   <div class="main">
     <button id="addTodo">Add new Todo</button>
-    <div class="form hideform">
+    <div class="form hideform" id="new">
       <form>
         <p>Add new to-do</p>
+        <ul>
+          <li>
+            <label for="title">Title:</label>
+            <input type="text" id="title"/>
+          </li>
+          <li>
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes" rows="3">Description</textarea>
+          </li>
+          <li>
+            <label for="date">Date:</label>
+            <input type="date" id="date">
+          </li>
+          <li>
+            <label for="priority">Priority:</label>
+            <input type="text" id="priority">
+          </li>
+          <li class="buttons">
+            <button type="button" id="submit">Submit</button>
+            <button type="button" id="close">Close</button>
+          </li>
+        </ul>
+      </form>
+    </div>
+    <div class="form hideform" id="edit">
+      <form>
+        <p>Edit to-do</p>
         <ul>
           <li>
             <label for="title">Title:</label>

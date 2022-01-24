@@ -1,7 +1,7 @@
 import ToDo from "./todo"
 import './style.css';
 import './dom.js';
-import {render, displayProjects, highlightCurrent} from "./dom.js";
+import {render, displayProjects, highlightCurrent, editToDoForm} from "./dom.js";
 import { compareAsc } from "date-fns";
 
 
@@ -14,16 +14,18 @@ let currentProject = projects['main'];
 displayProjects(projects);
 highlightCurrent('main');
 render(currentProject);
-const submit = document.querySelector('#submit');
+const submit = document.querySelector('#new #submit');
 submit.addEventListener('click', addToDo);
 const newProjectButton = document.querySelector('#newP');
 newProjectButton.addEventListener('click', newProject)
+const edit = document.querySelector('#edit #submit');
+edit.addEventListener('click', sendEdit);
 
 function addToDo() {
-  const title = document.querySelector('#title').value;
-  const notes = document.querySelector('#notes').value;
-  const date = document.querySelector('#date').value;
-  const priority = document.querySelector('#priority').value;
+  const title = document.querySelector('#new #title').value;
+  const notes = document.querySelector('#new #notes').value;
+  const date = document.querySelector('#new #date').value;
+  const priority = document.querySelector('#new #priority').value;
   currentProject.addToDo(title, notes, date, priority);
   saveState();
 }
@@ -50,8 +52,14 @@ function Project(toDoArr = []) {
       }
     }
   }
+  const updateToDo = (title, notes, date, priority, i) => {
+    if (i > -1) {
+      const done = toDoArr[i].done;
+      toDoArr[i] = ToDo(title, notes, date, priority, done);
+    }
+  }
   const getToDoArr = () => toDoArr;
-  return {addToDo, getToDoArr, delToDo, toDoArr, markDone}
+  return {addToDo, getToDoArr, delToDo, updateToDo, toDoArr, markDone}
 }
 
 function newProject() {
@@ -79,12 +87,31 @@ function deleteProject() {
   
 }
 
+function sendEdit() {
+  const i = this.dataset.i;
+  const title = document.querySelector('#edit #title').value;
+  const notes = document.querySelector('#edit #notes').value;
+  const date = document.querySelector('#edit #date').value;
+  const priority = document.querySelector('#edit #priority').value;
+  currentProject.updateToDo(title, notes, date, priority, i);
+  render(currentProject);
+  saveState();
+}
+
+function editToDo(e) {
+  const i = this.dataset.i;
+  const toDo = currentProject.getToDoArr()[i];
+  editToDoForm(toDo.title, toDo.notes, toDo.date, toDo.priority, i);
+  e.stopPropagation();
+}
+
 function deleteToDo(e) {
   const i = this.dataset.i;
   currentProject.delToDo(i);
   e.stopPropagation();
   saveState();
 }
+
 // needed to simulate clicking on project to save marked todos
 
 function markDone(e) {
@@ -126,4 +153,7 @@ function recreateObjects(retrieved) {
   }
 }
 
-export {switchProject, deleteProject, deleteToDo, markDone };
+export {switchProject, deleteProject, deleteToDo, markDone, editToDo};
+
+//add abilty to edit todos
+//clear forms after submit
