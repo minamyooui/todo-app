@@ -34,6 +34,13 @@ function closeForm(id) {
   form.classList.toggle('hideform');
 }
 
+function clearForm(id) {
+  document.querySelector(`${id} #title`).value = '';
+  document.querySelector(`${id} #notes`).value = '';
+  document.querySelector(`${id} #date`).value = '';
+  document.querySelector(`${id} #priority`).value = '';
+}
+
 function controlCollapse() {
   const content = this.firstChild.nextElementSibling;
     if (content.style.display === 'block') {
@@ -159,5 +166,7 @@ export {
   render,
   displayProjects,
   highlightCurrent,
-  editToDoForm
+  editToDoForm,
+  clearForm,
+  closeForm
 };

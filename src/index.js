@@ -1,7 +1,7 @@
 import ToDo from "./todo"
 import './style.css';
 import './dom.js';
-import {render, displayProjects, highlightCurrent, editToDoForm} from "./dom.js";
+import {render, displayProjects, highlightCurrent, editToDoForm, clearForm, closeForm } from "./dom.js";
 import { compareAsc } from "date-fns";
 
 
@@ -27,6 +27,7 @@ function addToDo() {
   const date = document.querySelector('#new #date').value;
   const priority = document.querySelector('#new #priority').value;
   currentProject.addToDo(title, notes, date, priority);
+  clearForm('#new');
   saveState();
 }
 
@@ -95,6 +96,8 @@ function sendEdit() {
   const priority = document.querySelector('#edit #priority').value;
   currentProject.updateToDo(title, notes, date, priority, i);
   render(currentProject);
+  clearForm('#edit');
+  closeForm('#edit');
   saveState();
 }
 
@@ -155,5 +158,4 @@ function recreateObjects(retrieved) {
 
 export {switchProject, deleteProject, deleteToDo, markDone, editToDo};
 
-//add abilty to edit todos
 //clear forms after submit
